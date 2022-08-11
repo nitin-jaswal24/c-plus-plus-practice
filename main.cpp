@@ -1,73 +1,209 @@
+
+
+
+
+
 #include <iostream>
+
+
 
 using namespace std;
 
+
+
 struct node
+
 {
+
     int data;
+
     node *next;
 
-}*first=NULL;
-void create(int arr[],int n)
+
+
+
+
+}*first=NULL,*last=NULL; //changes
+
+
+
+
+
+// code for insertion in the linked list
+
+void Insert(node *n,int index,int val)
+
 {
-    int i;
-    node *t,*last;
-    first=new node;
-    first->data=arr[0];
-    first->next=NULL;
-    last=first;
-    for(i=1;i<n;i++)
-    {
-        t=new node;
-        t->data=arr[i];
-        t->next=NULL;
+
+     if(index==0)
+
+     {
+
+         node *p=new node;
+
+         p->data=val;
+
+         p->next=first;
+
+         first=p;
+
+         if(first==NULL){
+             last=p;
+         }
+
+
+
+     }
+
+
+
+        node *p=new node;
+
+     p->data=val;
+
+     n=first;
+
+     for(int i=0;i<index-1;i++)
+
+     {
+
+         n=n->next;
+
+     }
+     if(!n->next){
+         last=p;
+     }
+     p->next=n->next;
+
+     n->next=p;
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+// inserting at the last
+
+
+
+void insertLast(int val)
+
+{
+
+     node *t=new node;
+
+
+
+     t->data=val;
+
+     t->next=NULL;
+
+     if(first==NULL)
+
+     {
+
+         first=last=t;
+
+     }
+
+     else{
+
         last->next=t;
+
         last=t;
 
-    }
+     }
 
-}
-
-
-int count(node *p)
-{
-
-    if(p==0)
-    {
-        return 0;
-
-    }
-    return count(p->next)+1;
-}
-
-int add(node *p)
-{
-    int sum=0;
-    if(p==0)
-    {
-        return 0;
-    }
-    else{
-        return p->data+add(p->next);
-    }
 }
 
 void display(node *p)
+
+
+
 {
-    while(p!=NULL)
-    {
-        cout<<p->data<<endl;
-        p=p->next;
-    }
+
+        while(p!=NULL)
+
+        {
+
+            cout<<p->data<<" ";
+
+            p=p->next;
+
+        }
+
+        cout<<endl;
+
 }
 
-int main()
-{
-    int A[]={3,4,5,6,7,8,9};
-    create(A,7);
-    cout<<count(first)<<endl;
-    cout<<add(first)<<endl;
+//inserting if the linked list is sorted
 
-    display(first);
+void insertSorted(node *n,int index,int value)
+{
+    node*p=first;
+    node *q=nullptr;
+    if(p->data<value)
+    {
+        while(p && p->data<value)
+    {
+        q=p;
+        p=p->next;
+    }
+    node *t=new node;
+    t->data=value;
+    t->next=q->next;
+    q->next=t;
+    }
+    else
+    {
+        node *t=new node;
+        t->data=value;
+        t->next=first;
+        first=t;
+
+    }
+
+}
+
+
+
+
+
+
+
+int main()
+
+{
+
+
+Insert(first,0,1);
+
+Insert(first,1,99);
+
+Insert(first,2,199);
+
+Insert(first,3,999);
+
+// insertLast(10009);
+insertSorted(first,0,0);
+
+display(first);
+
+
+
+
+
+
+
     return 0;
+
 }
