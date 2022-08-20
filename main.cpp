@@ -1,254 +1,144 @@
-
-
-
-
-
 #include <iostream>
-
-
 
 using namespace std;
 
-
-
 struct node
-
 {
-
     int data;
-
     node *next;
-}*first=NULL,*last=NULL; //changes
 
-
-// code for insertion in the linked list
-
-void Insert(node *n,int index,int val)
-
+}*first=NULL,*second=nullptr,*third=nullptr;
+void create1(int arr[],int n)
 {
-
-     if(index==0)
-
-     {
-
-         node *p=new node;
-
-         p->data=val;
-
-         p->next=first;
-
-         first=p;
-
-         if(first==NULL){
-             last=p;
-         }}
-     else{
-         node *p=new node;
-
-     p->data=val;
-
-     n=first;
-
-     for(int i=0;i<index-1;i++)
-
-     {
-
-         n=n->next;}
-     if(!n->next){
-         last=p;
-     }
-     p->next=n->next;
-
-     n->next=p;}
-}
-
-
-
-
-
-// inserting at the last
-
-
-
-void insertLast(int val)
-
-{
-
-     node *t=new node;
-
-
-
-     t->data=val;
-
-     t->next=NULL;
-
-     if(first==NULL)
-
-     {
-
-         first=last=t;
-
-     }
-
-     else{
-
+    int i;
+    node *t,*last;
+    first=new node;
+    first->data=arr[0];
+    first->next=NULL;
+    last=first;
+    for(i=1;i<n;i++)
+    {
+        t=new node;
+        t->data=arr[i];
+        t->next=NULL;
         last->next=t;
-
         last=t;
 
-     }
+    }
+
+}
+
+
+int count(node *p)
+{
+
+    if(p==0)
+    {
+        return 0;
+
+    }
+    return count(p->next)+1;
+}
+void create2(int arr[],int n)
+{
+    int i;
+    node *t,*last;
+    second=new node;
+    second->data=arr[0];
+    second->next=NULL;
+    last=second;
+    for(i=1;i<n;i++)
+    {
+        t=new node;
+        t->data=arr[i];
+        t->next=NULL;
+        last->next=t;
+        last=t;
+
+    }
 
 }
 
 
 
-//now delting the node
 
-//first deleete the firstNode
-//
-//void deleteFirst(node *p)
-//{
-//    p=first;
-//    first=first->next;
-//    delete p;
-//}
-
-// lets delte the specified node
-
-void deleteNode(node *p,int index)
+int add(node *p)
 {
-    if(index==0)
+    int sum=0;
+    if(p==0)
     {
-        p=first;
-        first=first->next;
-        delete p;
+        return 0;
     }
     else{
-        p=first;
-        node *q=nullptr;
-        for(int i=0;i<index-1&&p;i++)
-        {   q=p;
-            p=p->next;
-
-
-        }
-        if(p->next==nullptr&&p)
-        {
-            q->next=nullptr;
-            last=q;
-            delete p;
-        }
-        else if(p){
-            q->next=p->next;
-        delete p;
-        }
-
-
+        return p->data+add(p->next);
     }
-
 }
 
-
-
-// lets check linked list is sorted or not
-
-bool isSorted(node *p)
-{
-    node *q=nullptr;
-    p=first;
-    while(p)
-    {
-        q=p;
-        p=p->next;
-
-        if(p&&p->data<q->data)
-        {
-            return false;
-        }
-
-
-    }
-    return true;
-
-
-
-}
-
-
-// now lets remove the duplicates from the linked list
-void removeDuplicate(node *p)
-{
-
-    node *q=p->next;
-    while(q!=nullptr)
-    {
-
-
-        if(p->data!=q->data)
-        {
-            p=q;
-            q=q->next;
-        }
-        else{
-            p->next=q->next;
-            delete q;
-            q=p->next;
-        }
-    }
-
-}
 void display(node *p)
 {
-
-        while(p!=NULL)
-
-        {
-
-            cout<<p->data<<" ";
-
-            p=p->next;
-
-        }
-
-        cout<<endl;
-
+    while(p!=NULL)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+    cout<<endl;
 }
 
 
+//lets merge the 2 linked list
+void mergeList(node *p,node *q)
+{
+    node *last;
+    if(p->data>q->data)
+    {
+        third=last=q;
+        q=q->next;
+        third->next=nullptr;
+    }
+    else{
+        third=last=p;
+        p=p->next;
+        third->next=nullptr;
+    }
+    while(p!=nullptr && q!=nullptr)
+    {
+        if(p->data>q->data)
+        {
+            last->next=q;
+            last=q;
+            q=q->next;
+            last->next=nullptr;
+        }
+        else{
+            last->next=p;
+            last=p;
+            p=p->next;
+            last->next=nullptr;
+        }
+    }
+    if(p!=nullptr)
+    {
+        last->next=p;
+    }
+    if(q!=nullptr)
+    {
+        last->next=q;
 
+    }
 
-
-
-
+}
 
 int main()
-
 {
+    int A[]={10,20,30,40,50};
+    int B[]={5,15,25,35,45};
+    create1(A,7);
+    create2(B,7); // 2 linked list has been created
 
-
-Insert(first,0,1);
-
- Insert(first,1,99);
-
- Insert(first,2,199);
-
- Insert(first,3,999);
- Insert(first,4,1000);
- Insert(first,5,2000);
-  Insert(first,6,2000);
-  Insert(first,6,2000);
-
-display(first);
-//cout<<isSorted(first)<<endl;
- removeDuplicate(first);
- display(first);
-
-
-
-
-
-
-
+//    display(first);
+//    display(second);
+    mergeList(first,second);
+    display(third);
     return 0;
-
 }
+
