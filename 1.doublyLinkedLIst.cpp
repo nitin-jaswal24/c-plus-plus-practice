@@ -68,12 +68,13 @@ class Node
 //        return n;
 //    }
 };
-void insertHead(Node *&head,int data)
+void insertHead(Node *&head,Node *&tail,int data)
     {
         if(head==nullptr)
         {
             Node *temp=new Node(data);
             head=temp;
+            tail=temp;
             return;
 
         }
@@ -92,7 +93,7 @@ void insertTail(Node * &tail,Node * &head,int data)
 
         Node *temp=new Node(data);
         tail=temp;
-        head==temp;
+        head=temp;
         return;
     }
     Node *temp=new Node(data);
@@ -109,7 +110,7 @@ void insertPos(Node *&head,Node *&tail,int pos,int data)
 {
     if(pos==1)
     {
-        insertHead(head,data);
+        insertHead(head,tail,data);
         return;
     }
 
@@ -137,6 +138,51 @@ void insertPos(Node *&head,Node *&tail,int pos,int data)
 
 
 }
+
+
+//lets start deleting the node
+
+void deleteNode(Node *&head,int pos)
+{
+
+
+
+    if(pos==1){
+              Node *temp=head;
+
+    head->next->prev=nullptr;
+
+    head=temp->next;
+
+    temp->next=nullptr;
+    delete temp;
+    return;
+    }
+    Node *curr=head;
+    Node *pre=nullptr;
+
+
+    //now deleting the specific node
+    int cnt=1;
+    while(cnt<pos)
+    {
+        pre=curr;
+        curr=curr->next;
+        cnt++;
+    }
+    curr->prev=nullptr;
+    pre->next=curr->next;
+    curr->next=nullptr;
+    delete curr;
+
+
+
+
+
+
+
+
+}
 void display(Node *head)
     {Node *temp=head;
         while(temp)
@@ -155,9 +201,9 @@ int main()
 Node *head=nullptr;
 Node *tail=nullptr;
 
-    insertHead(head,1);
-    insertHead(head,11);
-    insertHead(head,111);
+    insertHead(head,tail,1);
+    insertHead(head,tail,11);
+    insertHead(head,tail,111);
     insertTail(tail,head,100);
     display(head);
     insertPos(head,tail,1,1);
@@ -168,6 +214,16 @@ Node *tail=nullptr;
 
     insertPos(head,tail,5,555);
     display(head);
+    insertPos(head,tail,8,555);
+    display(head);
+
+
+
+    //start deleting the node
+    deleteNode(head,8);
+    display(head);
+
+
 
 
 //    r->addEmpty(first,23);
