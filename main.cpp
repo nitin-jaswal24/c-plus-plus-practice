@@ -1,176 +1,99 @@
 #include <iostream>
+#define max 1000
+#include <cstring>
 using namespace std;
-class Node;
-Node *last=nullptr;
-Node *first=nullptr;
-class Node
-{
+class Stack
+{int top;
 public:
+    int a[max];
 
-    int data;
-    Node *next;
-    // void insertEmpty(Node *last,int value)
-
-    // {
-    //     if(last!=nullptr)
-    //     {
-    //         return;
-    //     }
-
-    //     Node *temp=new Node;
-    //     temp->data=value;
-    //     ::last=temp;
-    //     first=temp;
-    //     temp->next=last;
-
-    // }
-
-    //lets insert at the last node and make last node pointing on the first node
-    // void insertLast(Node *last,int value)
-    // {
-    //     if(last==nullptr)
-    //     {
-    //         insertEmpty(last,value);
-    //     }
-
-    //     Node *temp=new Node;
-    //     temp->data=value;
-    //     temp->next=last->next;
-    //     last->next=temp;
-    //     ::last=temp;
-
-    // }
-    // void insertPos(Node *p,int index,int data)
-    // {
-
-    //     for(int i=0;i<index-1;i++)
-    //     {
-    //         p=p->next;
-    //     }
-    //     Node *temp=new Node;
-    //     temp->data=data;
-    //     temp->next=p->next;
-    //     p->next=temp;
-
-
-    // }
-
-    void insertNode(Node *p,int data,int index)
-    {
-        if(index<0)
-        {
-            return;
-        }
-        // Node *temp=new Node;
-        if(index==0)
-        {   Node *q=first;
-
-            Node *temp=new Node;
-            if(first==nullptr)
-            {   temp->data=data;
-
-                first=temp;
-                temp->next=first;
-
-            }
-            else{
-                temp->data=data;
-                temp->next=first;
-                while(q->next!=first)
-                {
-                    q=q->next;
-                }
-                temp->next=first;
-                q->next=temp;
-                first=temp;
-
-            }
-        }
-        else{
-            Node *q=first;
-            for(int i=0;i<index-1;i++)
-            {
-                q=q->next;
-            }
-            Node *temp=new Node;
-            temp->data=data;
-            temp->next=q->next;
-            q->next=temp;
-        }
-    }
-
-    //delete the node
-
-    void deleteNode(Node *first,int index)
-    {
-        Node *p;
-        Node *q;
-        if(index==1)
-    {
-        p=first;
-        while(p->next!=first)
-        {
-            p=p->next;
-        }
-        if(p==first)
-        {
-            delete first;
-            first=nullptr;
-        }
-        else{
-        p->next=first->next;
-        delete first;
-        first=p->next;
-
-        }
-    }
-
-    else{
-        p=first;
-        for(int i=0;i<index-2;i++)
-        {
-            p=p->next;
-        }
-        q=p->next;
-        p->next=q->next;
-        delete q;
-
-    }
-
-    }
-
-    // traverse the whole linked list
-    void display(Node *p)
-    {
-        if(p==nullptr)
-        {
-            return;
-        }
-        do
-        {
-            cout<<p->data<<" ";
-            p=p->next;
-        }while(p!=first);
-    }
-
-};
-int main()
+    Stack()
 {
-    Node *r=new Node;
-    // r->insertEmpty(last,12);
-    // r->insertLast(last,10);
-    // r->insertLast(last,100);
-    r->insertNode(first,100,0);
-    r->insertNode(first,100,1);
-    r->insertNode(first,200,0);
-    r->insertNode(first,4,3);
-    r->display(first);
-    cout<<endl;
-    r->deleteNode(first,4);
+    top=-1;
 
-    r->display(first);
+}
+bool push(char data);
+char pop();
+char peek();
+bool isEmpty();
+};
+bool Stack :: push(char x)
+{
+    if(top>=max-1){
+        cout<<"stack overflow"<<endl;
+    }
+    else{
+        a[++top]=x;
+        cout<<x<<" has been pushed in the stack"<<endl;
+        return true;
+    }
 }
 
+char Stack::pop()
+{
+    if(top<0)
+    {
+        cout<<"stack has no elements to pop out"<<endl;
+        return 0;
 
+    }
+     char x=a[top--];
+         cout<<x<<"poppes out"<<endl;
 
+    return x;
+}
+char Stack ::peek()
+{
+    if(top<0)
+        {
+            return -1;}
+    else{
+        return a[top];
+    }
+}
+bool Stack::isEmpty()
+{
+    if(top==-1)
+    {
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+int isBalnced(char* exp)
+{
+    Stack s;
+    for(int i=0;i<strlen(exp);i++)
+    {
+        if(exp[i]=='(')
+        {
 
+            s.push(exp[i]);
+        }
+        else if(exp[i]==')'){
+                if(s.isEmpty())
+                {
+                    return false;
+                }
+                else{
+                    s.pop();
+                }
+
+        }
+    }
+    if(s.isEmpty())
+    {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+int main()
+{
+char c[]="((a+b)*(c-d))";
+cout<<isBalnced(c)<<endl;
+
+}
