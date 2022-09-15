@@ -1,127 +1,55 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
 #include <iostream>
-
+#include <queue>
 using namespace std;
-class Queue
+class Stack
 {
-private:
-    int front;
-    int rear;
-    int *arr;
-    int  size;
-public:
-    Queue()
+    public:
+            queue <int> q;
+
+    void push(int data)
     {
-        size=10001;
-        arr=new int[size];
-        front=-1;
-        rear=-1;
-    }
+        q.push(data);
+        int s=q.size();
 
-    bool insertLast(int data)
+        for(int i=0;i<s-1;i++)
+        {
+            q.push(q.front());
+            q.pop();
+        }
+
+    }
+    int pop()
     {
-        if((front==0&&rear==size-1)||(rear==(front-1)%size-1))
-        {
-            cout<<"queue is full"<<endl;
-            return 0;
-        }
-        else if(front==-1)
-        {
-            front=rear=0;
-        }
-        else if(rear==size-1&&front!=0)
-        {
-            rear=0;
-        }
-        else{
-                rear++;
-        }
-        arr[rear]=data;
-        return true;
-
+        int x=q.front();
+        q.pop();
+        return x;
     }
-    bool insertFront(int data)
+    int top()
     {
-        if((front==0&&rear==size-1)||rear==(front-1)%size-1)
-        {
-            cout<<"the queue is full cant insert in it"<<endl;
-            return 0;
-        }
-        else if(front==-1)//first element to insert
-        {
-            front=rear=0;
-        }
-        else if(front==0&&rear!=size-1)
-        {
-            front=size-1;
-        }
-        else{
-            front--;
-        }
-        arr[front]=data;
-        return true;
-
+        return q.front();
     }
-
-    bool popFront()
-    {if((front==0&&rear==size-1)&&rear==(front-1)%size-1)
-        {
-            cout<<"the queue is full cant insert in it"<<endl;
-            return 0;
-        }
-        int ans=arr[front];
-        arr[front]=-1;
-        if(front==rear)
-        {
-            front=rear=-1;
-        }
-        else if(front==size-1)
-        {
-            front=0;//maintain cyclic nature
-        }
-        else{
-            front++;
-        }
-
-    }
-    bool PopRear()
+    int size()
     {
-
-        if(front==-1)
-        {
-            cout<<"queueu is empty"<<endl;
-            return 0;
-        }
-        int ans=arr[rear];
-        arr[rear]=-1;
-        if(front==rear)
-        {
-            front=rear=-1;
-        }
-        else if(rear==0)
-        {
-            rear=size-1;//maintain cyclic nature
-        }
-        else{
-            rear--;
-        }
+        return q.size();
     }
-    void display()
-    {
-
-        for(int i=front;i<=rear;i++)
-        {
-
-            cout<<arr[i]<<" ";
-        }
-        cout<<endl;
-
-    }
-
 };
 int main()
 {
-Queue *q=new Queue;
-q->insertFront(23);
-q->insertFront(12);
-q->display();
+    Stack s;
+    s.push(23);
+    s.push(24);
+    s.push(25);
+    s.push(26);
+
+    cout<<s.pop()<<endl;
+
 }
+
