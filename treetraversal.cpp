@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <stack>
 using namespace std;
 class Node
 {
@@ -81,15 +82,16 @@ void preOrderTraversal(Node *root)
         preOrderTraversal(temp->right);
     }
 }
-//void postOrderTraversal(Node *root)
-//{
-//    if(root)
-//    {
-//        postOrderTraversal(root->left);
-//        cout<<root->data<<" ";
-//        postOrderTraversal(root->right);
-//    }
-//}
+void postOrderTraversal(Node *root)
+{
+    if(root)
+    {
+        postOrderTraversal(root->left);
+        postOrderTraversal(root->right);
+        cout<<root->data<<" ";
+
+    }
+}
 void inOrderTraversal(Node *root)
 {
     if(root)
@@ -100,6 +102,35 @@ void inOrderTraversal(Node *root)
         inOrderTraversal(root->right);
     }
 }
+void iterativePostOrderTraversal(Node *root)
+{
+    stack<long int> st;
+    Node *t=root;
+    long int temp;
+    while(!st.empty()||t!=NULL)
+    {
+        if(t!=nullptr)
+        {
+            st.emplace((long int)t);
+            t=t->left;
+
+        }
+        else{
+            temp=st.top();
+            st.pop();
+            if(temp>0)
+            {
+                st.emplace(-temp);
+                t=((Node*)temp)->right;
+            }
+            else{
+                cout<<((Node*)(-1*temp))->data<<" ";
+                t=nullptr;
+            }
+        }
+
+    }
+}
 int main()
 {
     Node *root=nullptr;
@@ -107,9 +138,10 @@ int main()
     //1 3  7 -1-1 11 -1 -1 5 17 -1 -1 -1
    root=buildTree();
 //   levelOrderTraversal(root);
-    preOrderTraversal(root);
+//    preOrderTraversal(root);
     cout<<endl;
     postOrderTraversal(root);
     cout<<endl;
-    inOrderTraversal(root);
+//    inOrderTraversal(root);
+iterativePostOrderTraversal(root);
 }
